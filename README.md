@@ -2,6 +2,8 @@
 
 [image1]: https://user-images.githubusercontent.com/10624937/43851024-320ba930-9aff-11e8-8493-ee547c6af349.gif "Trained Agent"
 [image2]: https://user-images.githubusercontent.com/10624937/43851646-d899bf20-9b00-11e8-858c-29b5c2c94ccc.png "Crawler"
+[image3]: https://nervanasystems.github.io/coach/_images/td3.png
+[image4]: https://nervanasystems.github.io/coach/_images/ddpg.png
 
 
 # Project 2: Continuous Control
@@ -64,25 +66,44 @@ The environment is considered solved, when the average (over 100 episodes) of th
 
 ### Instructions
 
-Follow the instructions in `Continuous_Control.ipynb` to get started with training your own agent!  
+Open `Continuous_Control.ipynb` to get started with the example with 20 agents I have implemeneted
 
-### (Optional) Challenge: Crawler Environment
+1.	Define the Network:
+    TD3 was used in this agent, Twin Delayed Deep Deterministic policy gradient in this practice [1], since it significantly improves the training performance compare to vanila DDPG: Better convergence in small network and much faster, got 30+ around 100 episodes.
 
-After you have successfully completed the project, you might like to solve the more difficult **Crawler** environment.
+TD3            |  vanila DDPG
+:-------------------------:|:-------------------------:
+![TD3][image3] |  ![DDPG][image4]
 
-![Crawler][image2]
+Network size:
+As the Vector Observation space size in this environment is 33, action space size is 4.
+I have defined First hidden layer units as 256 and 2nd hidden layer as 64 for Actor, small enough to run in CPU with balance of simplicity and efficiency.
+For the Critic First hidden layer units as 128 and 2nd hidden layer as 32, which the similar size as the one in my Navigation project with DDQN.
+And Critic in TD3 has 2 heads Q1 and Q2, which have identical layers
 
-In this continuous control environment, the goal is to teach a creature with four legs to walk forward without falling.  
+2.	Define the Replay Buffer:
+o	Make a deque for memorizing episode, size is very large, 1e5 or 1e6
+o	In each step of the episodes, the information of the 20 agents will be saved to the buffer, includes: State and next State of each agent, action, reward and done. 
+o	Sample randomly from the buffer in each training step, provided it has sufficient items
+o	In fact 20 Agent provides much more samples, so converge could be quite faster than 1 agent only.
 
-You can read more about this environment in the ML-Agents GitHub [here](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#crawler).  To solve this harder task, you'll need to download a new Unity environment.  (**Note**: Udacity students should not submit a project with this new environment.)
+3.	Define the Agent:
+o	Since TD3 is off-policy learning, I need to define 2 set of Networks: local and target, the local network will used for generating actions, and the target network will be used as updating the policy
+o	TD3 concurrently learns two Q-functions, Q1 and Q2, by mean square Bellman error minimization, in almost the same way that DDPG learns its single Q-function
+o	In TD3, there is a delaying policy update, which makes TD3 special [1], it will soft update the target network every D steps, D=2 in my case. Soft update is a special way in TD3/DDPG, rather copy the whole local to target, the soft update the new target with 
 
-You need only select the environment that matches your operating system:
-- Linux: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Crawler/Crawler_Linux.zip)
-- Mac OSX: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Crawler/Crawler.app.zip)
-- Windows (32-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Crawler/Crawler_Windows_x86.zip)
-- Windows (64-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Crawler/Crawler_Windows_x86_64.zip)
+o	Exploration, in TD3, I did not use epsilon-greedy, refer to sfujim’s implementation [3], I also use a random in the beginning of each episode, and then add a small noise afterward to maintain the stochastic
+o	Also, when generate next action with actor target, TD3 will add a nomralized noise clip as well.
 
-Then, place the file in the `p2_continuous-control/` folder in the DRLND GitHub repository, and unzip (or decompress) the file.  Next, open `Crawler.ipynb` and follow the instructions to learn how to use the Python API to control the agent.
+4.	Training the DDQN:
+o	Due to the Network is small, and most time was consumed in the simulator, it didn’t make much difference in CPU and GPU, sometimes it can reach 30+ less than 100 episodes, and sometimes ~150 episodes.
+o	Max_Steps: 1001 as observed in the env, it will be finished in 1001
+o	Skip_timesteps, 50, mean it will randomly generate actions at the first 50 steps beginning of each episode.
+o	Random action generation, I made a test before the training, random normal distribution would get more score (0.4+) than random equal distribution (0.2-)
+o	Batch_size, 128 or 256, 256 is better in convergence.
 
-(_For AWS_) If you'd like to train the agent on AWS (and have not [enabled a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md)), then please use [this link](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Crawler/Crawler_Linux_NoVis.zip) to obtain the "headless" version of the environment.  You will **not** be able to watch the agent without enabling a virtual screen, but you will be able to train the agent.  (_To watch the agent, you should follow the instructions to [enable a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md), and then download the environment for the **Linux** operating system above._)
+
+5.	Interesting observations:
+o	It is very strange that critic loss would keep increasing after a period, though the actor loss keeps reducing. I have searched online, seems quite common in DDPG, but mine is creasing so significant, would like to understand more about it.
+
 
