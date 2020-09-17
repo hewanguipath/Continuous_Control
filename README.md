@@ -82,28 +82,28 @@ For the Critic First hidden layer units as 128 and 2nd hidden layer as 32, which
 And Critic in TD3 has 2 heads Q1 and Q2, which have identical layers
 
 2.	Define the Replay Buffer:
-o	Make a deque for memorizing episode, size is very large, 1e5 or 1e6
-o	In each step of the episodes, the information of the 20 agents will be saved to the buffer, includes: State and next State of each agent, action, reward and done. 
-o	Sample randomly from the buffer in each training step, provided it has sufficient items
-o	In fact 20 Agent provides much more samples, so converge could be quite faster than 1 agent only.
+- Make a deque for memorizing episode, size is very large, 1e5 or 1e6
+- In each step of the episodes, the information of the 20 agents will be saved to the buffer, includes: State and next State of each agent, action, reward and done. 
+- Sample randomly from the buffer in each training step, provided it has sufficient items
+- In fact 20 Agent provides much more samples, so converge could be quite faster than 1 agent only.
 
 3.	Define the Agent:
-o	Since TD3 is off-policy learning, I need to define 2 set of Networks: local and target, the local network will used for generating actions, and the target network will be used as updating the policy
-o	TD3 concurrently learns two Q-functions, Q1 and Q2, by mean square Bellman error minimization, in almost the same way that DDPG learns its single Q-function
-o	In TD3, there is a delaying policy update, which makes TD3 special [1], it will soft update the target network every D steps, D=2 in my case. Soft update is a special way in TD3/DDPG, rather copy the whole local to target, the soft update the new target with 
+- Since TD3 is off-policy learning, I need to define 2 set of Networks: local and target, the local network will used for generating actions, and the target network will be used as updating the policy
+- TD3 concurrently learns two Q-functions, Q1 and Q2, by mean square Bellman error minimization, in almost the same way that DDPG learns its single Q-function
+- In TD3, there is a delaying policy update, which makes TD3 special [1], it will soft update the target network every D steps, D=2 in my case. Soft update is a special way in TD3/DDPG, rather copy the whole local to target, the soft update the new target with 
 
-o	Exploration, in TD3, I did not use epsilon-greedy, refer to sfujim’s implementation [3], I also use a random in the beginning of each episode, and then add a small noise afterward to maintain the stochastic
-o	Also, when generate next action with actor target, TD3 will add a nomralized noise clip as well.
+- Exploration, in TD3, I did not use epsilon-greedy, refer to sfujim’s implementation [3], I also use a random in the beginning of each episode, and then add a small noise afterward to maintain the stochastic
+- Also, when generate next action with actor target, TD3 will add a nomralized noise clip as well.
 
 4.	Training the DDQN:
-o	Due to the Network is small, and most time was consumed in the simulator, it didn’t make much difference in CPU and GPU, sometimes it can reach 30+ less than 100 episodes, and sometimes ~150 episodes.
-o	Max_Steps: 1001 as observed in the env, it will be finished in 1001
-o	Skip_timesteps, 50, mean it will randomly generate actions at the first 50 steps beginning of each episode.
-o	Random action generation, I made a test before the training, random normal distribution would get more score (0.4+) than random equal distribution (0.2-)
-o	Batch_size, 128 or 256, 256 is better in convergence.
+- Due to the Network is small, and most time was consumed in the simulator, it didn’t make much difference in CPU and GPU, sometimes it can reach 30+ less than 100 episodes, and sometimes ~150 episodes.
+- Max_Steps: 1001 as observed in the env, it will be finished in 1001
+- Skip_timesteps, 50, mean it will randomly generate actions at the first 50 steps beginning of each episode.
+- Random action generation, I made a test before the training, random normal distribution would get more score (0.4+) than random equal distribution (0.2-)
+- Batch_size, 128 or 256, 256 is better in convergence.
 
 
 5.	Interesting observations:
-o	It is very strange that critic loss would keep increasing after a period, though the actor loss keeps reducing. I have searched online, seems quite common in DDPG, but mine is creasing so significant, would like to understand more about it.
+- It is very strange that critic loss would keep increasing after a period, though the actor loss keeps reducing. I have searched online, seems quite common in DDPG, but mine is creasing so significant, would like to understand more about it.
 
 
