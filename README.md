@@ -69,17 +69,17 @@ The environment is considered solved, when the average (over 100 episodes) of th
 Open `Continuous_Control.ipynb` to get started with the example with 20 agents I have implemeneted
 
 1.	Define the Network:
-    TD3 was used in this agent, Twin Delayed Deep Deterministic policy gradient in this practice [1], since it significantly improves the training performance compare to vanila DDPG: Better convergence in small network and much faster, got 30+ around 100 episodes.
+- TD3 was used in this agent, Twin Delayed Deep Deterministic policy gradient in this practice [1], since it significantly improves the training performance compare to vanila DDPG: Better convergence in small network and much faster, got 30+ around 100 episodes.
+- Network size:
+<br>As the Vector Observation space size in this environment is 33, action space size is 4.
+<br>I have defined First hidden layer units as 256 and 2nd hidden layer as 64 for Actor, small enough to run in CPU with balance of simplicity and efficiency.
+<br>For the Critic First hidden layer units as 128 and 2nd hidden layer as 32, which the similar size as the one in my Navigation project with DDQN.
+<br>And Critic in TD3 has 2 heads Q1 and Q2, which have identical layers
 
 TD3            |  vanila DDPG
 :-------------------------:|:-------------------------:
 ![TD3][image3] |  ![DDPG][image4]
 
-Network size:
-As the Vector Observation space size in this environment is 33, action space size is 4.
-I have defined First hidden layer units as 256 and 2nd hidden layer as 64 for Actor, small enough to run in CPU with balance of simplicity and efficiency.
-For the Critic First hidden layer units as 128 and 2nd hidden layer as 32, which the similar size as the one in my Navigation project with DDQN.
-And Critic in TD3 has 2 heads Q1 and Q2, which have identical layers
 
 2.	Define the Replay Buffer:
 - Make a deque for memorizing episode, size is very large, 1e5 or 1e6
