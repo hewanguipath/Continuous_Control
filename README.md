@@ -81,27 +81,41 @@ Open `Continuous_Control.ipynb` to get started with the example with 20 agents I
 TD3            |  vanila DDPG
 
 2.	Define the Replay Buffer:
-- Make a deque for memorizing episode, size is very large, 1e5 or 1e6
-- In each step of the episodes, the information of the 20 agents will be saved to the buffer, includes: State and next State of each agent, action, reward and done. 
-- Sample randomly from the buffer in each training step, provided it has sufficient items
-- In fact 20 Agent provides much more samples, so converge could be quite faster than 1 agent only.
+<p> Make a deque for memorizing episode, size is very large, 1e5 or 1e6
+<p> In each step of the episodes, the information of the 20 agents will be saved to the buffer, includes: State and next State of each agent, action, reward and done. 
+<p> Sample randomly from the buffer in each training step, provided it has sufficient items
+<p> In fact 20 Agent provides much more samples, so converge could be quite faster than 1 agent only.
 
 3.	Define the Agent:
-- Since TD3 is off-policy learning, I need to define 2 set of Networks: local and target, the local network will used for generating actions, and the target network will be used as updating the policy
-- TD3 concurrently learns two Q-functions, Q1 and Q2, by mean square Bellman error minimization, in almost the same way that DDPG learns its single Q-function
-- In TD3, there is a delaying policy update, which makes TD3 special [1], it will soft update the target network every D steps, D=2 in my case. Soft update is a special way in TD3/DDPG, rather copy the whole local to target, the soft update the new target with 
-
-- Exploration, in TD3, I did not use epsilon-greedy, refer to sfujim’s implementation [3], I also use a random in the beginning of each episode, and then add a small noise afterward to maintain the stochastic
-- Also, when generate next action with actor target, TD3 will add a nomralized noise clip as well.
+<p> Since TD3 is off-policy learning, I need to define 2 set of Networks: local and target, the local network will used for generating actions, and the target network will be used as updating the policy
+<p> TD3 concurrently learns two Q-functions, Q1 and Q2, by mean square Bellman error minimization, in almost the same way that DDPG learns its single Q-function
+<p> In TD3, there is a delaying policy update, which makes TD3 special [1], it will soft update the target network every D steps, D=2 in my case. Soft update is a special way in TD3/DDPG, rather copy the whole local to target, the soft update the new target with 
+    
+> θ_t = 𝛕 * θ_t + (1-𝛕) * θ
+    
+<p> Exploration, in TD3, I did not use epsilon-greedy, refer to sfujim’s implementation [3], I also use a random in the beginning of each episode, and then add a small noise afterward to maintain the stochastic
+<p> Also, when generate next action with actor target, TD3 will add a nomralized noise clip as well.
 
 4.	Training the DDQN:
-- Due to the Network is small, and most time was consumed in the simulator, it didn’t make much difference in CPU and GPU, sometimes it can reach 30+ less than 100 episodes, and sometimes ~150 episodes.
-- Max_Steps: 1001 as observed in the env, it will be finished in 1001
-- Skip_timesteps, 50, mean it will randomly generate actions at the first 50 steps beginning of each episode.
-- Random action generation, I made a test before the training, random normal distribution would get more score (0.4+) than random equal distribution (0.2-)
-- Batch_size, 128 or 256, 256 is better in convergence.
+<p> Due to the Network is small, and most time was consumed in the simulator, it didn’t make much difference in CPU and GPU, sometimes it can reach 30+ less than 100 episodes, and sometimes ~150 episodes.
+<p> Max_Steps: 1001 as observed in the env, it will be finished in 1001
+<p> Skip_timesteps, 50, mean it will randomly generate actions at the first 50 steps beginning of each episode.
+<p> Random action generation, I made a test before the training, random normal distribution would get more score (0.4+) than random equal distribution (0.2-)
+<p> Batch_size, 128 or 256, 256 is better in convergence.
+    
+```
+Episode 10	Average Score: 1.10
+Episode 20	Average Score: 5.73
+Episode 30	Average Score: 17.67
+Episode 40	Average Score: 26.48
+Episode 50	Average Score: 31.21
+Episode 60	Average Score: 32.64
+Episode 70	Average Score: 33.25
+Episode 80	Average Score: 35.85
+Finished at Episode 84	Reach Average Score: 36.03!
+```
 
-
+    
 5.	Interesting observations:
 - It is very strange that critic loss would keep increasing after a period, though the actor loss keeps reducing. I have searched online, seems quite common in DDPG, but mine is creasing so significant, would like to understand more about it.
 
