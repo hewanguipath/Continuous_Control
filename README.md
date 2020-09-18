@@ -76,10 +76,9 @@ Open `Continuous_Control.ipynb` to get started with the example with 20 agents I
 <br>For the Critic First hidden layer units as 128 and 2nd hidden layer as 32, which the similar size as the one in my Navigation project with DDQN.
 <br>And Critic in TD3 has 2 heads Q1 and Q2, which have identical layers
 
-TD3            |  vanila DDPG
-:-------------------------:|:-------------------------:
 ![TD3][image3] |  ![DDPG][image4]
-
+:-------------------------:|:-------------------------:
+TD3            |  vanila DDPG
 
 2.	Define the Replay Buffer:
 - Make a deque for memorizing episode, size is very large, 1e5 or 1e6
@@ -106,4 +105,6 @@ TD3            |  vanila DDPG
 5.	Interesting observations:
 - It is very strange that critic loss would keep increasing after a period, though the actor loss keeps reducing. I have searched online, seems quite common in DDPG, but mine is creasing so significant, would like to understand more about it.
 
-
+![.](actorloss.png) |  ![.](criticloss.png)
+:-------------------------:|:-------------------------:
+actor loss            |  critc loss
