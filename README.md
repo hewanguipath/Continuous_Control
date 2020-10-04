@@ -124,7 +124,8 @@ Finished at Episode 84	Reach Average Score: 36.03!
 actor loss            |  critc loss
 
 
-### (Additional) Challenge: Crawler 
+
+## (Additional) Challenge: Crawler 
 ![Crawler][image2]
 In this continuous control environment, the goal is to teach a creature with four legs to walk forward without falling.
 
