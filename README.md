@@ -139,3 +139,47 @@ You need only select the environment that matches your operating system:
 Then, place the file in the `p2_continuous-control/` folder in the DRLND GitHub repository, and unzip (or decompress) the file.  Next, open `Crawler.ipynb` and follow the instructions to learn how to use the Python API to control the agent.
 
 (_For AWS_) If you'd like to train the agent on AWS (and have not [enabled a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md)), then please use [this link](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Crawler/Crawler_Linux_NoVis.zip) to obtain the "headless" version of the environment.  You will **not** be able to watch the agent without enabling a virtual screen, but you will be able to train the agent.  (_To watch the agent, you should follow the instructions to [enable a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md), and then download the environment for the **Linux** operating system above._)
+
+
+### Instructions
+
+Open `Crawler.ipynb` to get started with the example with the crawler agents I have implemeneted
+
+- Same Network as Reacher
+- Only diffrence is using a sumtree prioritize reply buffer, which significantly improve the training performance
+
+it reaches 38 less than 900 episodes, but then start converge slow till 1500 episodes
+
+```
+Episode 50	Average Score: 0.49
+Episode 100	Average Score: 0.81
+Episode 150	Average Score: 0.93
+Episode 200	Average Score: 3.43
+Episode 250	Average Score: 6.44
+Episode 300	Average Score: 14.06
+Episode 350	Average Score: 16.98
+Episode 400	Average Score: 17.91
+Episode 450	Average Score: 21.47
+Episode 500	Average Score: 26.44
+Episode 550	Average Score: 24.70
+Episode 600	Average Score: 27.39
+Episode 650	Average Score: 30.57
+Episode 700	Average Score: 33.96
+Episode 750	Average Score: 35.69
+Episode 800	Average Score: 36.69
+Episode 850	Average Score: 38.78
+Episode 900	Average Score: 36.84
+Episode 950	Average Score: 36.65
+Episode 1000	Average Score: 38.09
+Episode 1050	Average Score: 37.73
+Episode 1100	Average Score: 38.96
+Episode 1150	Average Score: 39.00
+Episode 1200	Average Score: 38.60
+Episode 1250	Average Score: 41.84
+Episode 1300	Average Score: 42.39
+Episode 1350	Average Score: 42.15
+Episode 1400	Average Score: 41.09
+Episode 1450	Average Score: 42.03
+Episode 1454	Score: 37.20
+
+```
