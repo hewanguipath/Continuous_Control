@@ -156,35 +156,36 @@ Open `Crawler.ipynb` to get started with the example with the crawler agents I h
 it reaches 38 less than 900 episodes, but then start converge slow till 1500 episodes
 
 ```
-Episode 50	Average Score: 0.49
-Episode 100	Average Score: 0.81
-Episode 150	Average Score: 0.93
-Episode 200	Average Score: 3.43
-Episode 250	Average Score: 6.44
-Episode 300	Average Score: 14.06
-Episode 350	Average Score: 16.98
-Episode 400	Average Score: 17.91
-Episode 450	Average Score: 21.47
-Episode 500	Average Score: 26.44
-Episode 550	Average Score: 24.70
-Episode 600	Average Score: 27.39
-Episode 650	Average Score: 30.57
-Episode 700	Average Score: 33.96
-Episode 750	Average Score: 35.69
-Episode 800	Average Score: 36.69
-Episode 850	Average Score: 38.78
-Episode 900	Average Score: 36.84
-Episode 950	Average Score: 36.65
-Episode 1000	Average Score: 38.09
-Episode 1050	Average Score: 37.73
-Episode 1100	Average Score: 38.96
-Episode 1150	Average Score: 39.00
-Episode 1200	Average Score: 38.60
-Episode 1250	Average Score: 41.84
-Episode 1300	Average Score: 42.39
-Episode 1350	Average Score: 42.15
-Episode 1400	Average Score: 41.09
-Episode 1450	Average Score: 42.03
-Episode 1454	Score: 37.20
+Episode 50	Average Score: 0.426	Max Score: 3.06
+Episode 100	Average Score: 0.592	Max Score: 12.39
+Episode 150	Average Score: 0.952	Max Score: 9.05
+Episode 200	Average Score: 0.955	Max Score: 2.90
+Episode 250	Average Score: 1.542	Max Score: 6.75
+Episode 300	Average Score: 4.241	Max Score: 8.44
+Episode 350	Average Score: 5.967	Max Score: 14.45
+Episode 400	Average Score: 9.701	Max Score: 27.79
+Episode 450	Average Score: 14.261	Max Score: 22.87
+Episode 500	Average Score: 13.118	Max Score: 18.50
+Episode 550	Average Score: 16.091	Max Score: 27.47
+Episode 600	Average Score: 18.638	Max Score: 34.02
+Episode 650	Average Score: 17.225	Max Score: 28.93
+Episode 700	Average Score: 20.808	Max Score: 44.88
+Episode 750	Average Score: 20.385	Max Score: 31.11
+Episode 800	Average Score: 26.627	Max Score: 41.67
+Episode 850	Average Score: 26.503	Max Score: 41.85
+Episode 900	Average Score: 26.640	Max Score: 54.06
+Episode 950	Average Score: 29.420	Max Score: 49.57
+Episode 1000	Average Score: 28.285	Max Score: 45.06
+Episode 1050	Average Score: 31.482	Max Score: 48.67
+Episode 1100	Average Score: 34.029	Max Score: 53.88
+Episode 1150	Average Score: 33.390	Max Score: 61.41
+Episode 1200	Average Score: 36.897	Max Score: 58.20
+Episode 1250	Average Score: 37.028	Max Score: 59.86
+Episode 1300	Average Score: 38.065	Max Score: 66.10
+Episode 1350	Average Score: 45.151	Max Score: 64.77
+Episode 1400	Average Score: 45.408	Max Score: 62.77
+Episode 1450	Average Score: 48.245	Max Score: 74.12
+Episode 1500	Average Score: 48.721	Max Score: 68.42
+Finished at Episode 1519	Reach Average Score: 50.03!
 
 ```
